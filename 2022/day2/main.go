@@ -15,6 +15,7 @@ func main() {
 
     lines := strings.Split(string(data), "\n")
     lines = lines[:len(lines)-1]
+
     sumPoints := 0
         for i := 0; i < len(lines); i++ {
             instructions := strings.Split(lines[i], " ")
@@ -61,6 +62,66 @@ func main() {
         sumPoints += gamePoint + instPoint
     }
 
-    fmt.Println("Sum of points: ", sumPoints)
+    fmt.Println("Sum of points part one: ", sumPoints)
 
+    sumPoints = 0
+    for i := 0; i < len(lines); i++ {
+        instructions := strings.Split(lines[i], " ")
+
+        instPoint := 0
+        gamePoint := 0
+        switch instructions[0] {
+        // Oponent chooses rock
+        case "A":
+            switch instructions[1] {
+                // You need to lose -> choose scissors
+            case "X":
+                instPoint = 3
+                gamePoint = 0
+                // You need to tie -> choose rock
+            case "Y":
+                instPoint = 1
+                gamePoint = 3
+                // You need to win -> choose paper
+            case "Z":
+                instPoint = 2
+                gamePoint = 6
+            }
+        // Oponent chooses paper
+        case "B":
+            switch instructions[1] {
+                // You need to lose -> choose rock
+            case "X":
+                instPoint = 1
+                gamePoint = 0
+                // You need to tie -> choose paper
+            case "Y":
+                instPoint = 2
+                gamePoint = 3
+                // You need to win -> choose scissors
+            case "Z":
+                instPoint = 3
+                gamePoint = 6
+            }
+        // Oponent chooses scissors
+        case "C":
+            switch instructions[1] {
+                // You need to lose -> choose paper
+            case "X":
+                instPoint = 2
+                gamePoint = 0
+                // You need to tie -> choose scissors
+            case "Y":
+                instPoint = 3
+                gamePoint = 3
+                // You need to win -> choose rock
+            case "Z":
+                instPoint = 1
+                gamePoint = 6
+            }
+        }
+        sumPoints += gamePoint + instPoint
+    }
+
+    fmt.Println("Sum of points part two: ", sumPoints)
 }

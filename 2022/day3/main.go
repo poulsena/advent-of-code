@@ -40,4 +40,32 @@ func main() {
         }
     }
     fmt.Println(sumPriorities)
+
+    sumPriorities = 0
+    commonFound = false
+    for i := 0; i < len(lines) - 1; i += 3 {
+        for _, charOne := range lines[i] {
+            for _, charTwo := range lines[i+1] {
+                for _, charThree := range lines[i+2] {
+                    if charOne == charTwo && charTwo == charThree {
+                        if unicode.IsUpper(charOne){
+                            sumPriorities += int(charOne) - 38
+                        } else {
+                            sumPriorities += int(charOne) - 96
+                        }
+                        commonFound = true
+                        break
+                    }
+                }
+                if commonFound {
+                    break
+                }
+            }
+            if commonFound {
+                commonFound = false
+                break
+            }
+        }
+    }
+    fmt.Println(sumPriorities)
 }

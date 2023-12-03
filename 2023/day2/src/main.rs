@@ -75,8 +75,65 @@ fn part_one(input: &str) {
     println!("Part One: Total: {}", total);
 }
 
+fn part_two(input: &str) {
+    let mut answer: usize = 0;
+
+    for line in input.lines() {
+        let mut max_red: usize = 0;
+        let mut max_green: usize = 0;
+        let mut max_blue: usize = 0;
+
+        let sets = line.split(": ").collect::<Vec<&str>>()[1]
+            .split("; ")
+            .collect::<Vec<&str>>();
+
+        'set: for set in sets {
+            let set = set.split(", ").collect::<Vec<&str>>();
+
+            for color in set {
+                let digits: usize = color
+                    .chars()
+                    .filter(|c| c.is_digit(10))
+                    .collect::<String>()
+                    .parse()
+                    .unwrap();
+
+                let color_string = color
+                    .trim()
+                    .chars()
+                    .filter(|c| c.is_alphabetic())
+                    .collect::<String>();
+
+                match color_string.as_str() {
+                    "red" => {
+                        if digits > max_red {
+                            max_red = digits;
+                        }
+                    }
+                    "green" => {
+                        if digits > max_green {
+                            max_green = digits;
+                        }
+                    }
+                    "blue" => {
+                        if digits > max_blue {
+                            max_blue = digits;
+                        }
+                    }
+                    _ => {
+                        break 'set;
+                    }
+                }
+            }
+        }
+        answer += max_red * max_green * max_blue;
+    }
+    println!("Part Two: Answer: {}", answer);
+}
+
 fn main() {
     let input = fs::read_to_string("input.txt").expect("Error reading input.txt");
 
     part_one(&input);
+    part_two(&input);
 }
